@@ -4,6 +4,8 @@ Pulls the latest 10-K filings from SEC EDGAR, it then extracts **Item 1A. Risk F
 
 **First full run (Oct 2026):** 20 financial companies across insurance, banking, and asset management · 269,455 words of risk disclosures · about 3.5 minutes end to end.
 
+**See the results:** [written comparison](results/report.md) · [sector table](results/by_sector.csv) · [all 200 risks](results/risks.csv)
+
 ## Run it
 
 ```bash
