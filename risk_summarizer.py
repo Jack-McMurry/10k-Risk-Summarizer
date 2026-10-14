@@ -166,8 +166,8 @@ def response_text(response) -> str:
     A response is a list of content blocks. Some models return a "thinking"
     block (their reasoning) before the answer, so keep only the text blocks.
     """
-   if response.stop_reason == "max_tokens":
-       print("WARNING: response was cut off; raise max_tokens")
+    if response.stop_reason == "max_tokens":
+        print("WARNING: response was cut off; raise max_tokens")
 
     return "".join(block.text for block in response.content if block.type == "text")
 
