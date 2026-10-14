@@ -166,6 +166,9 @@ def response_text(response) -> str:
     A response is a list of content blocks. Some models return a "thinking"
     block (their reasoning) before the answer, so keep only the text blocks.
     """
+   if response.stop_reason == "max_tokens":
+       print("WARNING: response was cut off; raise max_tokens")
+
     return "".join(block.text for block in response.content if block.type == "text")
 
 SUMMARY_PROMPT = """You are a financial analyst. Below is the "Risk Factors" section of {company}'s 10-K.
@@ -185,7 +188,7 @@ Risk Factors section:
 def summarize_risks(company: str, section: str) -> list[dict]:
     response = client.messages.create(
         model=MODEL,
-        max_tokens=3000,
+        max_tokens=6000,
         messages=[{
             "role": "user",
             "content": SUMMARY_PROMPT.format(
@@ -213,7 +216,7 @@ def compare_companies(df: pd.DataFrame) -> str:
     table = df.sort_values(["sector", "ticker"]).to_csv(index=False)
     response = client.messages.create(
         model=MODEL,
-        max_tokens=2500,
+        max_tokens=8000,
         messages=[{"role": "user", "content": COMPARE_PROMPT.format(n=df["ticker"].nunique(), table=table)}],
     )
     return response_text(response)
